@@ -1,0 +1,58 @@
+# --- Go ---
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin/
+vendor/
+
+# Go build / cache
+*.test
+*.out
+go.work
+go.work.sum
+
+# --- Python ---
+# Byte-compiled / optimized
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+*.pyo
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+.env
+.conda/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+*.egg
+*.whl
+
+# --- Common ---
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Env files
+.env.local
+.env.*.local
