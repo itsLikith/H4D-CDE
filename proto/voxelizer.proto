@@ -1,0 +1,29 @@
+syntax = "proto3";
+package h4dcde.voxelizer.v1;
+option go_package = "h4dcde/gen/voxelizer;voxelizerv1";
+
+import "common.proto";
+import "flightplan.proto";
+
+service VoxelEngineService {
+  rpc IngestFlightPlan(IngestFlightPlanRequest) returns (ProcessingResult);
+  rpc GetConflicts(GetConflictsRequest) returns (GetConflictsResponse);
+}
+
+message IngestFlightPlanRequest {
+  h4dcde.flightplan.v1.FlightPlan flight_plan = 1;
+}
+
+message ProcessingResult {
+  repeated h4dcde.common.v1.ConflictRecord conflicts = 1;
+  repeated h4dcde.common.v1.Advisory advisories = 2;
+}
+
+message GetConflictsRequest {
+  string h3_cell = 1;   // optional filter, empty string = no filter
+  double min_risk = 2;
+}
+
+message GetConflictsResponse {
+  repeated h4dcde.common.v1.ConflictRecord conflicts = 1;
+}

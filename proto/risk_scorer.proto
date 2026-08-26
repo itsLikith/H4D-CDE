@@ -1,0 +1,22 @@
+syntax = "proto3";
+package h4dcde.riskscorer.v1;
+option go_package = "h4dcde/gen/riskscorer;riskscorerv1";
+
+service RiskScorerService {
+  rpc ScoreConflict(ScoreConflictRequest) returns (ScoreConflictResponse);
+}
+
+// Mirrors Eq. (10)'s feature vector X' exactly -- see Part 3.4 and Part 12.2.
+message ScoreConflictRequest {
+  int32 n_entities_in_conflict = 1;
+  double closure_rate_mps = 2;
+  double heading_diff_deg = 3;
+  double local_traffic_density = 4;
+  double sector_load_forecast = 5;
+  double wind_shear_kt_per_100ft = 6;
+  double visibility_km = 7;
+}
+
+message ScoreConflictResponse {
+  double risk_score = 1;
+}

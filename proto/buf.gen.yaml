@@ -1,0 +1,18 @@
+version: v2
+plugins:
+  - remote: buf.build/protocolbuffers/go
+    out: ../services/gateway/gen
+    opt: paths=source_relative
+  - remote: buf.build/grpc/go
+    out: ../services/gateway/gen
+    opt: paths=source_relative
+  # Repeat the same two plugin blocks with a different `out:` for every Go
+  # service that needs generated types (voxel-engine, standards-svc, audit-svc)
+  - remote: buf.build/protocolbuffers/python
+    out: ../services/trajectory-predictor-svc/gen
+  - remote: buf.build/grpc/python
+    out: ../services/trajectory-predictor-svc/gen
+  # ...repeat for demand-forecaster-svc, risk-scorer-svc
+  - remote: buf.build/protocolbuffers/es
+    out: ../web/lib/gen
+    opt: target=ts
