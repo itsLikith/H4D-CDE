@@ -1,0 +1,15 @@
+syntax = "proto3";
+package h4dcde.flightplan.v1;
+option go_package = "h4dcde/gen/flightplan;flightplanv1";
+
+import "common.proto";
+
+message FlightPlan {
+  string entity_id = 1;
+  string origin_icao = 2;
+  string destination_icao = 3;
+  int64 eobt_unix_ms = 4;                          // Estimated Off-Block Time
+  repeated h4dcde.common.v1.GeoPoint waypoints = 5;
+  double cruise_altitude_ft = 6;
+  double cruise_speed_kt = 7;
+}

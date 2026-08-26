@@ -1,0 +1,53 @@
+syntax = "proto3";
+package h4dcde.common.v1;
+option go_package = "h4dcde/gen/common;commonv1";
+
+message GeoPoint {
+  double lat = 1;
+  double lon = 2;
+}
+
+// One sampled or predicted position along a flight's path.
+message TrajectoryPoint {
+  string entity_id = 1;
+  double t_s = 2;       // seconds since epoch -- binning unit for altitude/time bins
+  double lat = 3;
+  double lon = 4;
+  double alt_ft = 5;
+}
+
+// Composite key from Eq. (6): (h_voxel, a_bin, t_bin) -- see Part 3.4.
+message VoxelKey {
+  string h3_cell = 1;
+  int32 alt_bin_ft = 2;
+  int32 time_bin_s = 3;
+}
+
+enum ConflictType {
+  CONFLICT_TYPE_UNSPECIFIED = 0;
+  CONFLICT_TYPE_SAME_VOXEL = 1;
+  CONFLICT_TYPE_NEIGHBOR_VOXEL = 2;
+}
+
+message ConflictRecord {
+  string conflict_id = 1;
+  VoxelKey voxel_key = 2;
+  repeated string entities = 3;
+  ConflictType conflict_type = 4;
+  double risk_score = 5;
+  int64 detected_at_unix_ms = 6;
+}
+
+enum AdvisoryStrategy {
+  ADVISORY_STRATEGY_UNSPECIFIED = 0;
+  ADVISORY_STRATEGY_DELAY = 1;
+  ADVISORY_STRATEGY_REROUTE = 2;
+  ADVISORY_STRATEGY_ALTITUDE_CHANGE = 3;
+}
+
+message Advisory {
+  string conflict_id = 1;
+  AdvisoryStrategy strategy = 2;
+  map<string, string> parameters = 3;   // e.g. {"delay_s": "60"} -- see Part 13
+  double expected_risk_reduction_pct = 4;
+}
