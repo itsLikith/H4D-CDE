@@ -1,0 +1,18 @@
+syntax = "proto3";
+package h4dcde.demandforecaster.v1;
+option go_package = "h4dcde/gen/demandforecaster;demandforecasterv1";
+
+// No RPC needed for the scheduled forecast path (Part 11.1) -- this message
+// is kept for the one legitimate synchronous use case: an operator
+// dashboard asking "what's your current forecast for this cell right now".
+service DemandForecasterService {
+  rpc GetForecast(GetForecastRequest) returns (GetForecastResponse);
+}
+
+message GetForecastRequest {
+  string h3_cell = 1;
+}
+
+message GetForecastResponse {
+  repeated int32 predicted_occupancy_by_step = 1; // one entry per time-bin step ahead
+}
