@@ -1,0 +1,22 @@
+syntax = "proto3";
+package h4dcde.trajectorypredictor.v1;
+option go_package = "h4dcde/gen/trajectorypredictor;trajectorypredictorv1";
+
+import "flightplan.proto";
+import "common.proto";
+
+service TrajectoryPredictorService {
+  rpc RefineTrajectory(RefineTrajectoryRequest) returns (RefineTrajectoryResponse);
+}
+
+message RefineTrajectoryRequest {
+  h4dcde.flightplan.v1.FlightPlan flight_plan = 1;
+  double wind_speed_kt = 2;
+  double wind_direction_deg = 3;
+  double max_accel_mps2 = 4;
+  double air_density_kgm3 = 5;
+}
+
+message RefineTrajectoryResponse {
+  repeated h4dcde.common.v1.TrajectoryPoint points = 1;
+}
