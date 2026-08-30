@@ -1,0 +1,24 @@
+syntax = "proto3";
+package h4dcde.standards.v1;
+option go_package = "github.com/itsLikith/h4d-cde/gen/standards;standardsv1";
+
+import "flightplan.proto";
+import "voxelizer.proto";
+
+service StandardsService {
+  rpc SubmitFlightPlan(SubmitFlightPlanRequest) returns (h4dcde.voxelizer.v1.ProcessingResult);
+  rpc ValidateFlightPlan(ValidateFlightPlanRequest) returns (ValidateFlightPlanResponse);
+}
+
+message SubmitFlightPlanRequest {
+  h4dcde.flightplan.v1.FlightPlan flight_plan = 1;
+}
+
+message ValidateFlightPlanRequest {
+  h4dcde.flightplan.v1.FlightPlan flight_plan = 1;
+}
+
+message ValidateFlightPlanResponse {
+  bool is_valid = 1;
+  repeated string validation_errors = 2;
+}

@@ -1,6 +1,6 @@
 syntax = "proto3";
 package h4dcde.demandforecaster.v1;
-option go_package = "h4dcde/gen/demandforecaster;demandforecasterv1";
+option go_package = "github.com/itsLikith/h4d-cde/gen/demandforecaster;demandforecasterv1";
 
 // No RPC needed for the scheduled forecast path (Part 11.1) -- this message
 // is kept for the one legitimate synchronous use case: an operator

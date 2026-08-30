@@ -1,0 +1,8 @@
+grpcio>=1.68.0
+grpcio-tools>=1.68.0
+protobuf>=5.28.0
+joblib>=1.4.0
+numpy>=1.26.0
+scikit-learn>=1.4.0
+xgboost>=2.0.0
+pytest>=8.0.0

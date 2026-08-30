@@ -1,0 +1,38 @@
+syntax = "proto3";
+package h4dcde.audit.v1;
+option go_package = "github.com/itsLikith/h4d-cde/gen/audit;auditv1";
+
+import "common.proto";
+
+service AuditService {
+  rpc GetVoxelAuditTrail(GetVoxelAuditTrailRequest) returns (GetVoxelAuditTrailResponse);
+  rpc VerifyAuditChain(VerifyAuditChainRequest) returns (VerifyAuditChainResponse);
+}
+
+message AuditEntry {
+  int64 timestamp_unix_ms = 1;
+  string event_type = 2;
+  string payload_json = 3;
+  string prev_hash = 4;
+  string hash = 5;
+}
+
+message GetVoxelAuditTrailRequest {
+  h4dcde.common.v1.VoxelKey voxel_key = 1;
+}
+
+message GetVoxelAuditTrailResponse {
+  repeated AuditEntry entries = 1;
+  bool chain_valid = 2;
+}
+
+message VerifyAuditChainRequest {
+  int64 start_time_unix_ms = 1;
+  int64 end_time_unix_ms = 2;
+}
+
+message VerifyAuditChainResponse {
+  bool is_valid = 1;
+  int64 total_entries_verified = 2;
+  string last_hash = 3;
+}

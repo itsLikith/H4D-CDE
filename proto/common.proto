@@ -1,6 +1,6 @@
 syntax = "proto3";
 package h4dcde.common.v1;
-option go_package = "h4dcde/gen/common;commonv1";
+option go_package = "github.com/itsLikith/h4d-cde/gen/common;commonv1";
 
 message GeoPoint {
   double lat = 1;

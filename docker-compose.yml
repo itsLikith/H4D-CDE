@@ -1,0 +1,210 @@
+# Copyright 2026 Likith Saragadam
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+services:
+  # ==========================================
+  # Infrastructure Services
+  # ==========================================
+  redis:
+    image: redis:7.2-alpine
+    container_name: h4d-redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  kafka:
+    image: docker.redpanda.com/redpandadata/redpanda:v24.1.1
+    container_name: h4d-kafka
+    ports:
+      - "9092:9092"
+      - "9644:9644"
+    volumes:
+      - kafka_data:/var/lib/redpanda/data
+    command:
+      - redpanda
+      - start
+      - --smp
+      - "1"
+      - --memory
+      - "512M"
+      - --overprovisioned
+      - --kafka-addr
+      - "PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092"
+      - --advertise-kafka-addr
+      - "PLAINTEXT://kafka:29092,OUTSIDE://localhost:9092"
+    healthcheck:
+      test: ["CMD", "rpk", "cluster", "health"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: h4d-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-audit_db}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  prometheus:
+    image: prom/prometheus:v2.50.0
+    container_name: h4d-prometheus
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+
+  # ==========================================
+  # Microservices
+  # ==========================================
+  standards-svc:
+    build:
+      context: .
+      dockerfile: services/standards-svc/Dockerfile
+    container_name: h4d-standards-svc
+    environment:
+      PORT: "50050"
+      VOXEL_ENGINE_ADDR: "voxel-engine:50051"
+    ports:
+      - "50050:50050"
+    depends_on:
+      voxel-engine:
+        condition: service_started
+
+  voxel-engine:
+    build:
+      context: .
+      dockerfile: services/voxel-engine/Dockerfile
+    container_name: h4d-voxel-engine
+    environment:
+      PORT: "50051"
+      REDIS_ADDR: "redis:6379"
+      KAFKA_BROKERS: "kafka:29092"
+      TRAJECTORY_PREDICTOR_ADDR: "trajectory-predictor-svc:50052"
+      RISK_SCORER_ADDR: "risk-scorer-svc:50055"
+      DEMAND_FORECASTER_ADDR: "demand-forecaster-svc:50053"
+      AUDIT_SVC_ADDR: "audit-svc:50054"
+    ports:
+      - "50051:50051"
+    depends_on:
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      trajectory-predictor-svc:
+        condition: service_started
+      risk-scorer-svc:
+        condition: service_started
+
+  trajectory-predictor-svc:
+    build:
+      context: .
+      dockerfile: services/trajectory-predictor-svc/Dockerfile
+    container_name: h4d-trajectory-predictor
+    environment:
+      PORT: "50052"
+      MODEL_PATH: "models/trajectory_predictor.joblib"
+    ports:
+      - "50052:50052"
+
+  demand-forecaster-svc:
+    build:
+      context: .
+      dockerfile: services/demand-forecaster-svc/Dockerfile
+    container_name: h4d-demand-forecaster
+    environment:
+      PORT: "50053"
+      REDIS_ADDR: "redis:6379"
+      MODEL_PATH: "models/demand_forecaster.pt"
+      FORECAST_INTERVAL_SEC: "30"
+    ports:
+      - "50053:50053"
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  audit-svc:
+    build:
+      context: .
+      dockerfile: services/audit-svc/Dockerfile
+    container_name: h4d-audit-svc
+    environment:
+      PORT: "50054"
+      KAFKA_BROKERS: "kafka:29092"
+      KAFKA_TOPIC: "audit.events"
+      POSTGRES_DSN: "postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-audit_db}?sslmode=disable"
+    ports:
+      - "50054:50054"
+    depends_on:
+      kafka:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+
+  risk-scorer-svc:
+    build:
+      context: .
+      dockerfile: services/risk-scorer-svc/Dockerfile
+    container_name: h4d-risk-scorer
+    environment:
+      PORT: "50055"
+      MODEL_PATH: "models/risk_scorer.joblib"
+    ports:
+      - "50055:50055"
+
+  gateway:
+    build:
+      context: .
+      dockerfile: services/gateway/Dockerfile
+    container_name: h4d-gateway
+    environment:
+      PORT: "8080"
+      VOXEL_ENGINE_ADDR: "voxel-engine:50051"
+      STANDARDS_SVC_ADDR: "standards-svc:50050"
+      AUDIT_SVC_ADDR: "audit-svc:50054"
+      DEMAND_FORECASTER_ADDR: "demand-forecaster-svc:50053"
+      KAFKA_BROKERS: "kafka:29092"
+      JWT_SECRET: ${JWT_SECRET:-h4d-cde-super-secure-secret-key-2026}
+    ports:
+      - "8080:8080"
+    depends_on:
+      voxel-engine:
+        condition: service_started
+      standards-svc:
+        condition: service_started
+      audit-svc:
+        condition: service_started
+
+volumes:
+  redis_data:
+  kafka_data:
+  postgres_data:
+  prometheus_data:
