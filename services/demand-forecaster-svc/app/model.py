@@ -33,7 +33,9 @@ class CausalConv1d(nn.Module):
     Ensures that prediction at step t depends only on inputs at steps <= t (no lookahead bias).
     """
 
-    def __init__(self, in_channels: int, out_channels: int, kernel_size: int, dilation: int):
+    def __init__(
+        self, in_channels: int, out_channels: int, kernel_size: int, dilation: int
+    ):
         super().__init__()
         self.padding = (kernel_size - 1) * dilation
         self.conv = nn.Conv1d(
@@ -108,7 +110,7 @@ class DemandForecasterTCN(nn.Module):
         layers = []
         in_ch = in_features
         for i, out_ch in enumerate(hidden_channels):
-            dilation = 2 ** i
+            dilation = 2**i
             layers.append(
                 TCNBlock(
                     in_channels=in_ch,

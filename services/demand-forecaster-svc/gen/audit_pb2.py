@@ -4,18 +4,15 @@
 # source: audit.proto
 # Protobuf Python Version: 6.31.1
 """Generated protocol buffer code."""
+
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import descriptor_pool as _descriptor_pool
 from google.protobuf import runtime_version as _runtime_version
 from google.protobuf import symbol_database as _symbol_database
 from google.protobuf.internal import builder as _builder
+
 _runtime_version.ValidateProtobufRuntimeVersion(
-    _runtime_version.Domain.PUBLIC,
-    6,
-    31,
-    1,
-    '',
-    'audit.proto'
+    _runtime_version.Domain.PUBLIC, 6, 31, 1, "", "audit.proto"
 )
 # @@protoc_insertion_point(imports)
 
@@ -25,24 +22,28 @@ _sym_db = _symbol_database.Default()
 import common_pb2 as common__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0b\x61udit.proto\x12\x0fh4dcde.audit.v1\x1a\x0c\x63ommon.proto\"\xab\x01\n\nAuditEntry\x12*\n\x11timestamp_unix_ms\x18\x01 \x01(\x03R\x0ftimestampUnixMs\x12\x1d\n\nevent_type\x18\x02 \x01(\tR\teventType\x12!\n\x0cpayload_json\x18\x03 \x01(\tR\x0bpayloadJson\x12\x1b\n\tprev_hash\x18\x04 \x01(\tR\x08prevHash\x12\x12\n\x04hash\x18\x05 \x01(\tR\x04hash\"T\n\x19GetVoxelAuditTrailRequest\x12\x37\n\tvoxel_key\x18\x01 \x01(\x0b\x32\x1a.h4dcde.common.v1.VoxelKeyR\x08voxelKey\"t\n\x1aGetVoxelAuditTrailResponse\x12\x35\n\x07\x65ntries\x18\x01 \x03(\x0b\x32\x1b.h4dcde.audit.v1.AuditEntryR\x07\x65ntries\x12\x1f\n\x0b\x63hain_valid\x18\x02 \x01(\x08R\nchainValid\"o\n\x17VerifyAuditChainRequest\x12+\n\x12start_time_unix_ms\x18\x01 \x01(\x03R\x0fstartTimeUnixMs\x12\'\n\x10\x65nd_time_unix_ms\x18\x02 \x01(\x03R\rendTimeUnixMs\"\x88\x01\n\x18VerifyAuditChainResponse\x12\x19\n\x08is_valid\x18\x01 \x01(\x08R\x07isValid\x12\x34\n\x16total_entries_verified\x18\x02 \x01(\x03R\x14totalEntriesVerified\x12\x1b\n\tlast_hash\x18\x03 \x01(\tR\x08lastHash2\xe6\x01\n\x0c\x41uditService\x12m\n\x12GetVoxelAuditTrail\x12*.h4dcde.audit.v1.GetVoxelAuditTrailRequest\x1a+.h4dcde.audit.v1.GetVoxelAuditTrailResponse\x12g\n\x10VerifyAuditChain\x12(.h4dcde.audit.v1.VerifyAuditChainRequest\x1a).h4dcde.audit.v1.VerifyAuditChainResponseB\xaf\x01\n\x13\x63om.h4dcde.audit.v1B\nAuditProtoP\x01Z.github.com/itsLikith/h4d-cde/gen/audit;auditv1\xa2\x02\x03HAX\xaa\x02\x0fH4dcde.Audit.V1\xca\x02\x0fH4dcde\\Audit\\V1\xe2\x02\x1bH4dcde\\Audit\\V1\\GPBMetadata\xea\x02\x11H4dcde::Audit::V1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(
+    b'\n\x0b\x61udit.proto\x12\x0fh4dcde.audit.v1\x1a\x0c\x63ommon.proto"\xab\x01\n\nAuditEntry\x12*\n\x11timestamp_unix_ms\x18\x01 \x01(\x03R\x0ftimestampUnixMs\x12\x1d\n\nevent_type\x18\x02 \x01(\tR\teventType\x12!\n\x0cpayload_json\x18\x03 \x01(\tR\x0bpayloadJson\x12\x1b\n\tprev_hash\x18\x04 \x01(\tR\x08prevHash\x12\x12\n\x04hash\x18\x05 \x01(\tR\x04hash"T\n\x19GetVoxelAuditTrailRequest\x12\x37\n\tvoxel_key\x18\x01 \x01(\x0b\x32\x1a.h4dcde.common.v1.VoxelKeyR\x08voxelKey"t\n\x1aGetVoxelAuditTrailResponse\x12\x35\n\x07\x65ntries\x18\x01 \x03(\x0b\x32\x1b.h4dcde.audit.v1.AuditEntryR\x07\x65ntries\x12\x1f\n\x0b\x63hain_valid\x18\x02 \x01(\x08R\nchainValid"o\n\x17VerifyAuditChainRequest\x12+\n\x12start_time_unix_ms\x18\x01 \x01(\x03R\x0fstartTimeUnixMs\x12\'\n\x10\x65nd_time_unix_ms\x18\x02 \x01(\x03R\rendTimeUnixMs"\x88\x01\n\x18VerifyAuditChainResponse\x12\x19\n\x08is_valid\x18\x01 \x01(\x08R\x07isValid\x12\x34\n\x16total_entries_verified\x18\x02 \x01(\x03R\x14totalEntriesVerified\x12\x1b\n\tlast_hash\x18\x03 \x01(\tR\x08lastHash2\xe6\x01\n\x0c\x41uditService\x12m\n\x12GetVoxelAuditTrail\x12*.h4dcde.audit.v1.GetVoxelAuditTrailRequest\x1a+.h4dcde.audit.v1.GetVoxelAuditTrailResponse\x12g\n\x10VerifyAuditChain\x12(.h4dcde.audit.v1.VerifyAuditChainRequest\x1a).h4dcde.audit.v1.VerifyAuditChainResponseB\xaf\x01\n\x13\x63om.h4dcde.audit.v1B\nAuditProtoP\x01Z.github.com/itsLikith/h4d-cde/gen/audit;auditv1\xa2\x02\x03HAX\xaa\x02\x0fH4dcde.Audit.V1\xca\x02\x0fH4dcde\\Audit\\V1\xe2\x02\x1bH4dcde\\Audit\\V1\\GPBMetadata\xea\x02\x11H4dcde::Audit::V1b\x06proto3'
+)
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
-_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'audit_pb2', _globals)
+_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, "audit_pb2", _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
-  _globals['DESCRIPTOR']._loaded_options = None
-  _globals['DESCRIPTOR']._serialized_options = b'\n\023com.h4dcde.audit.v1B\nAuditProtoP\001Z.github.com/itsLikith/h4d-cde/gen/audit;auditv1\242\002\003HAX\252\002\017H4dcde.Audit.V1\312\002\017H4dcde\\Audit\\V1\342\002\033H4dcde\\Audit\\V1\\GPBMetadata\352\002\021H4dcde::Audit::V1'
-  _globals['_AUDITENTRY']._serialized_start=47
-  _globals['_AUDITENTRY']._serialized_end=218
-  _globals['_GETVOXELAUDITTRAILREQUEST']._serialized_start=220
-  _globals['_GETVOXELAUDITTRAILREQUEST']._serialized_end=304
-  _globals['_GETVOXELAUDITTRAILRESPONSE']._serialized_start=306
-  _globals['_GETVOXELAUDITTRAILRESPONSE']._serialized_end=422
-  _globals['_VERIFYAUDITCHAINREQUEST']._serialized_start=424
-  _globals['_VERIFYAUDITCHAINREQUEST']._serialized_end=535
-  _globals['_VERIFYAUDITCHAINRESPONSE']._serialized_start=538
-  _globals['_VERIFYAUDITCHAINRESPONSE']._serialized_end=674
-  _globals['_AUDITSERVICE']._serialized_start=677
-  _globals['_AUDITSERVICE']._serialized_end=907
+    _globals["DESCRIPTOR"]._loaded_options = None
+    _globals[
+        "DESCRIPTOR"
+    ]._serialized_options = b"\n\023com.h4dcde.audit.v1B\nAuditProtoP\001Z.github.com/itsLikith/h4d-cde/gen/audit;auditv1\242\002\003HAX\252\002\017H4dcde.Audit.V1\312\002\017H4dcde\\Audit\\V1\342\002\033H4dcde\\Audit\\V1\\GPBMetadata\352\002\021H4dcde::Audit::V1"
+    _globals["_AUDITENTRY"]._serialized_start = 47
+    _globals["_AUDITENTRY"]._serialized_end = 218
+    _globals["_GETVOXELAUDITTRAILREQUEST"]._serialized_start = 220
+    _globals["_GETVOXELAUDITTRAILREQUEST"]._serialized_end = 304
+    _globals["_GETVOXELAUDITTRAILRESPONSE"]._serialized_start = 306
+    _globals["_GETVOXELAUDITTRAILRESPONSE"]._serialized_end = 422
+    _globals["_VERIFYAUDITCHAINREQUEST"]._serialized_start = 424
+    _globals["_VERIFYAUDITCHAINREQUEST"]._serialized_end = 535
+    _globals["_VERIFYAUDITCHAINRESPONSE"]._serialized_start = 538
+    _globals["_VERIFYAUDITCHAINRESPONSE"]._serialized_end = 674
+    _globals["_AUDITSERVICE"]._serialized_start = 677
+    _globals["_AUDITSERVICE"]._serialized_end = 907
 # @@protoc_insertion_point(module_scope)

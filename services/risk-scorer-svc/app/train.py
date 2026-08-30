@@ -33,7 +33,9 @@ from .features import build_feature_vector
 PAPER_BENCHMARK_AUC = 0.89
 
 
-def generate_synthetic_conflict_dataset(n_samples: int = 6000, random_seed: int = 42) -> tuple[np.ndarray, np.ndarray]:
+def generate_synthetic_conflict_dataset(
+    n_samples: int = 6000, random_seed: int = 42
+) -> tuple[np.ndarray, np.ndarray]:
     """
     Generates synthetic airspace conflict feature vectors with realistic operational correlation.
     """
@@ -111,7 +113,9 @@ def train_risk_scorer(
     y_pred_proba = model.predict_proba(X_test)[:, 1]
     auc = float(roc_auc_score(y_test, y_pred_proba))
 
-    print(f"[*] Risk Scorer Validation AUC-ROC: {auc:.3f} (Paper Target: ≥ {PAPER_BENCHMARK_AUC})")
+    print(
+        f"[*] Risk Scorer Validation AUC-ROC: {auc:.3f} (Paper Target: ≥ {PAPER_BENCHMARK_AUC})"
+    )
 
     os.makedirs(os.path.dirname(os.path.abspath(model_out_path)), exist_ok=True)
     joblib.dump(model, model_out_path)

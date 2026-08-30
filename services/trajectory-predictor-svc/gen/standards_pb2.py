@@ -4,18 +4,15 @@
 # source: standards.proto
 # Protobuf Python Version: 6.31.1
 """Generated protocol buffer code."""
+
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import descriptor_pool as _descriptor_pool
 from google.protobuf import runtime_version as _runtime_version
 from google.protobuf import symbol_database as _symbol_database
 from google.protobuf.internal import builder as _builder
+
 _runtime_version.ValidateProtobufRuntimeVersion(
-    _runtime_version.Domain.PUBLIC,
-    6,
-    31,
-    1,
-    '',
-    'standards.proto'
+    _runtime_version.Domain.PUBLIC, 6, 31, 1, "", "standards.proto"
 )
 # @@protoc_insertion_point(imports)
 
@@ -26,20 +23,24 @@ import flightplan_pb2 as flightplan__pb2
 import voxelizer_pb2 as voxelizer__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0fstandards.proto\x12\x13h4dcde.standards.v1\x1a\x10\x66lightplan.proto\x1a\x0fvoxelizer.proto\"\\\n\x17SubmitFlightPlanRequest\x12\x41\n\x0b\x66light_plan\x18\x01 \x01(\x0b\x32 .h4dcde.flightplan.v1.FlightPlanR\nflightPlan\"^\n\x19ValidateFlightPlanRequest\x12\x41\n\x0b\x66light_plan\x18\x01 \x01(\x0b\x32 .h4dcde.flightplan.v1.FlightPlanR\nflightPlan\"d\n\x1aValidateFlightPlanResponse\x12\x19\n\x08is_valid\x18\x01 \x01(\x08R\x07isValid\x12+\n\x11validation_errors\x18\x02 \x03(\tR\x10validationErrors2\xf2\x01\n\x10StandardsService\x12g\n\x10SubmitFlightPlan\x12,.h4dcde.standards.v1.SubmitFlightPlanRequest\x1a%.h4dcde.voxelizer.v1.ProcessingResult\x12u\n\x12ValidateFlightPlan\x12..h4dcde.standards.v1.ValidateFlightPlanRequest\x1a/.h4dcde.standards.v1.ValidateFlightPlanResponseB\xcf\x01\n\x17\x63om.h4dcde.standards.v1B\x0eStandardsProtoP\x01Z6github.com/itsLikith/h4d-cde/gen/standards;standardsv1\xa2\x02\x03HSX\xaa\x02\x13H4dcde.Standards.V1\xca\x02\x13H4dcde\\Standards\\V1\xe2\x02\x1fH4dcde\\Standards\\V1\\GPBMetadata\xea\x02\x15H4dcde::Standards::V1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(
+    b'\n\x0fstandards.proto\x12\x13h4dcde.standards.v1\x1a\x10\x66lightplan.proto\x1a\x0fvoxelizer.proto"\\\n\x17SubmitFlightPlanRequest\x12\x41\n\x0b\x66light_plan\x18\x01 \x01(\x0b\x32 .h4dcde.flightplan.v1.FlightPlanR\nflightPlan"^\n\x19ValidateFlightPlanRequest\x12\x41\n\x0b\x66light_plan\x18\x01 \x01(\x0b\x32 .h4dcde.flightplan.v1.FlightPlanR\nflightPlan"d\n\x1aValidateFlightPlanResponse\x12\x19\n\x08is_valid\x18\x01 \x01(\x08R\x07isValid\x12+\n\x11validation_errors\x18\x02 \x03(\tR\x10validationErrors2\xf2\x01\n\x10StandardsService\x12g\n\x10SubmitFlightPlan\x12,.h4dcde.standards.v1.SubmitFlightPlanRequest\x1a%.h4dcde.voxelizer.v1.ProcessingResult\x12u\n\x12ValidateFlightPlan\x12..h4dcde.standards.v1.ValidateFlightPlanRequest\x1a/.h4dcde.standards.v1.ValidateFlightPlanResponseB\xcf\x01\n\x17\x63om.h4dcde.standards.v1B\x0eStandardsProtoP\x01Z6github.com/itsLikith/h4d-cde/gen/standards;standardsv1\xa2\x02\x03HSX\xaa\x02\x13H4dcde.Standards.V1\xca\x02\x13H4dcde\\Standards\\V1\xe2\x02\x1fH4dcde\\Standards\\V1\\GPBMetadata\xea\x02\x15H4dcde::Standards::V1b\x06proto3'
+)
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
-_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'standards_pb2', _globals)
+_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, "standards_pb2", _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
-  _globals['DESCRIPTOR']._loaded_options = None
-  _globals['DESCRIPTOR']._serialized_options = b'\n\027com.h4dcde.standards.v1B\016StandardsProtoP\001Z6github.com/itsLikith/h4d-cde/gen/standards;standardsv1\242\002\003HSX\252\002\023H4dcde.Standards.V1\312\002\023H4dcde\\Standards\\V1\342\002\037H4dcde\\Standards\\V1\\GPBMetadata\352\002\025H4dcde::Standards::V1'
-  _globals['_SUBMITFLIGHTPLANREQUEST']._serialized_start=75
-  _globals['_SUBMITFLIGHTPLANREQUEST']._serialized_end=167
-  _globals['_VALIDATEFLIGHTPLANREQUEST']._serialized_start=169
-  _globals['_VALIDATEFLIGHTPLANREQUEST']._serialized_end=263
-  _globals['_VALIDATEFLIGHTPLANRESPONSE']._serialized_start=265
-  _globals['_VALIDATEFLIGHTPLANRESPONSE']._serialized_end=365
-  _globals['_STANDARDSSERVICE']._serialized_start=368
-  _globals['_STANDARDSSERVICE']._serialized_end=610
+    _globals["DESCRIPTOR"]._loaded_options = None
+    _globals[
+        "DESCRIPTOR"
+    ]._serialized_options = b"\n\027com.h4dcde.standards.v1B\016StandardsProtoP\001Z6github.com/itsLikith/h4d-cde/gen/standards;standardsv1\242\002\003HSX\252\002\023H4dcde.Standards.V1\312\002\023H4dcde\\Standards\\V1\342\002\037H4dcde\\Standards\\V1\\GPBMetadata\352\002\025H4dcde::Standards::V1"
+    _globals["_SUBMITFLIGHTPLANREQUEST"]._serialized_start = 75
+    _globals["_SUBMITFLIGHTPLANREQUEST"]._serialized_end = 167
+    _globals["_VALIDATEFLIGHTPLANREQUEST"]._serialized_start = 169
+    _globals["_VALIDATEFLIGHTPLANREQUEST"]._serialized_end = 263
+    _globals["_VALIDATEFLIGHTPLANRESPONSE"]._serialized_start = 265
+    _globals["_VALIDATEFLIGHTPLANRESPONSE"]._serialized_end = 365
+    _globals["_STANDARDSSERVICE"]._serialized_start = 368
+    _globals["_STANDARDSSERVICE"]._serialized_end = 610
 # @@protoc_insertion_point(module_scope)

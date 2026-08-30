@@ -34,7 +34,9 @@ from .features import build_feature_vector
 PAPER_BENCHMARK_MAE_M = 15.2
 
 
-def generate_synthetic_training_data(n_samples: int = 5000, random_seed: int = 42) -> tuple[np.ndarray, np.ndarray]:
+def generate_synthetic_training_data(
+    n_samples: int = 5000, random_seed: int = 42
+) -> tuple[np.ndarray, np.ndarray]:
     """
     Generates physically consistent flight training vectors under varying
     atmospheric and operational conditions.
@@ -105,7 +107,9 @@ def train_trajectory_predictor(
     y_pred = model.predict(X_test)
     mae_m = float(mean_absolute_error(y_test, y_pred))
 
-    print(f"[*] Trajectory Predictor Validation MAE: {mae_m:.2f} m (Paper Target: ≤ {PAPER_BENCHMARK_MAE_M} m)")
+    print(
+        f"[*] Trajectory Predictor Validation MAE: {mae_m:.2f} m (Paper Target: ≤ {PAPER_BENCHMARK_MAE_M} m)"
+    )
 
     os.makedirs(os.path.dirname(os.path.abspath(model_out_path)), exist_ok=True)
     joblib.dump(model, model_out_path)

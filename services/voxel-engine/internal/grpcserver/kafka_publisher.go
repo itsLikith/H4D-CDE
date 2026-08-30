@@ -106,6 +106,6 @@ func (p *KafkaPublisher) Close() error {
 // NoOpPublisher for standalone execution and unit testing without active Kafka broker.
 type NoOpPublisher struct{}
 
-func (n *NoOpPublisher) PublishAudit(_ context.Context, _ any)           {}
+func (n *NoOpPublisher) PublishAudit(_ context.Context, _ any)            {}
 func (n *NoOpPublisher) PublishConflictDetected(_ context.Context, _ any) {}
-func (n *NoOpPublisher) Close() error                                   { return nil }
+func (n *NoOpPublisher) Close() error                                     { return nil }

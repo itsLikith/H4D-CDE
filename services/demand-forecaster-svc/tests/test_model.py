@@ -18,7 +18,9 @@ from app.model import DemandForecasterTCN
 
 
 def test_tcn_forward_shape():
-    model = DemandForecasterTCN(in_features=1, hidden_channels=(16, 16), horizon_steps=90)
+    model = DemandForecasterTCN(
+        in_features=1, hidden_channels=(16, 16), horizon_steps=90
+    )
     x = torch.randn(4, 1, 180)  # batch of 4 sequences of length 180
     out = model(x)
     assert out.shape == (4, 1, 90)

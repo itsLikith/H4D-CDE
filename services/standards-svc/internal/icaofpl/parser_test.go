@@ -25,12 +25,12 @@ import (
 
 func TestValidFlightPlan(t *testing.T) {
 	fpl := &flightplanv1.FlightPlan{
-		EntityId:        "UAV-VALID-01",
-		OriginIcao:      "OMDB",
-		DestinationIcao: "OMAA",
-		EobtUnixMs:      1700000000000,
+		EntityId:         "UAV-VALID-01",
+		OriginIcao:       "OMDB",
+		DestinationIcao:  "OMAA",
+		EobtUnixMs:       1700000000000,
 		CruiseAltitudeFt: 1500.0,
-		CruiseSpeedKt:   90.0,
+		CruiseSpeedKt:    90.0,
 		Waypoints: []*commonv1.GeoPoint{
 			{Lat: 25.2532, Lon: 55.3657},
 			{Lat: 24.4330, Lon: 54.6511},
@@ -43,10 +43,10 @@ func TestValidFlightPlan(t *testing.T) {
 func TestInvalidFlightPlanRejections(t *testing.T) {
 	// Missing waypoints & invalid speed/altitude
 	fpl := &flightplanv1.FlightPlan{
-		EntityId:        "",
+		EntityId:         "",
 		CruiseAltitudeFt: -100,
-		CruiseSpeedKt:   1200,
-		Waypoints:       []*commonv1.GeoPoint{},
+		CruiseSpeedKt:    1200,
+		Waypoints:        []*commonv1.GeoPoint{},
 	}
 
 	err := icaofpl.Validate(fpl)

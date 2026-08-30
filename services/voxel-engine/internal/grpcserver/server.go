@@ -112,11 +112,11 @@ func (s *Server) IngestFlightPlan(
 	var points []*commonv1.TrajectoryPoint
 	if s.TrajectoryClient != nil {
 		tpResp, err := s.TrajectoryClient.RefineTrajectory(ctx, &trajectorypredictorv1.RefineTrajectoryRequest{
-			FlightPlan:        fpl,
-			WindSpeedKt:       10.0,
-			WindDirectionDeg:  45.0,
-			MaxAccelMps2:      2.5,
-			AirDensityKgm3:    1.225,
+			FlightPlan:       fpl,
+			WindSpeedKt:      10.0,
+			WindDirectionDeg: 45.0,
+			MaxAccelMps2:     2.5,
+			AirDensityKgm3:   1.225,
 		})
 		if err == nil && tpResp != nil && len(tpResp.Points) > 0 {
 			points = tpResp.Points
@@ -201,10 +201,10 @@ func (s *Server) IngestFlightPlan(
 				AltBinFt: int32(pair.Key.AltBinFt),
 				TimeBinS: int32(pair.Key.TimeBinS),
 			},
-			Entities:          []string{pair.EntityA, pair.EntityB},
-			ConflictType:      cType,
-			RiskScore:         riskScore,
-			DetectedAtUnixMs:  nowMs,
+			Entities:         []string{pair.EntityA, pair.EntityB},
+			ConflictType:     cType,
+			RiskScore:        riskScore,
+			DetectedAtUnixMs: nowMs,
 		}
 		conflicts = append(conflicts, cRecord)
 	}
@@ -244,11 +244,11 @@ func (s *Server) IngestFlightPlan(
 
 	// 6. Asynchronous side-effects: Audit stream + live dashboard broadcast
 	s.Publisher.PublishAudit(ctx, map[string]any{
-		"type":            "conflicts_detected",
-		"flight_plan_id":  fpl.EntityId,
-		"conflicts_count": len(conflicts),
+		"type":             "conflicts_detected",
+		"flight_plan_id":   fpl.EntityId,
+		"conflicts_count":  len(conflicts),
 		"advisories_count": len(advisories),
-		"timestamp":       nowMs,
+		"timestamp":        nowMs,
 	})
 	s.Publisher.PublishConflictDetected(ctx, conflicts)
 

@@ -31,7 +31,10 @@ def haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     dphi = math.radians(lat2 - lat1)
     dlmb = math.radians(lon2 - lon1)
 
-    a = math.sin(dphi / 2.0) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dlmb / 2.0) ** 2
+    a = (
+        math.sin(dphi / 2.0) ** 2
+        + math.cos(p1) * math.cos(p2) * math.sin(dlmb / 2.0) ** 2
+    )
     c = 2.0 * math.atan2(math.sqrt(a), math.sqrt(1.0 - a))
     return EARTH_RADIUS_KM * c
 
@@ -41,7 +44,9 @@ def km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     return haversine_km(lat1, lon1, lat2, lon2)
 
 
-def interpolate(lat1: float, lon1: float, lat2: float, lon2: float, frac: float) -> tuple[float, float]:
+def interpolate(
+    lat1: float, lon1: float, lat2: float, lon2: float, frac: float
+) -> tuple[float, float]:
     """
     Spherical great-circle interpolation between two points for fraction frac in [0, 1].
     Returns (lat, lon) in degrees.
@@ -55,10 +60,12 @@ def interpolate(lat1: float, lon1: float, lat2: float, lon2: float, frac: float)
     p2, l2 = math.radians(lat2), math.radians(lon2)
 
     # Angular distance d between points
-    d = 2.0 * math.asin(math.sqrt(
-        math.sin((p2 - p1) / 2.0) ** 2 +
-        math.cos(p1) * math.cos(p2) * math.sin((l2 - l1) / 2.0) ** 2
-    ))
+    d = 2.0 * math.asin(
+        math.sqrt(
+            math.sin((p2 - p1) / 2.0) ** 2
+            + math.cos(p1) * math.cos(p2) * math.sin((l2 - l1) / 2.0) ** 2
+        )
+    )
 
     if d == 0.0:
         return lat1, lon1

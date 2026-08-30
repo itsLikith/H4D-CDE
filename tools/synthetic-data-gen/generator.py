@@ -27,10 +27,10 @@ EARTH_RADIUS_KM = 6371.0088
 # Approximate reference coordinates.
 # A real deployment sources exact coordinates from the relevant AIP (Aeronautical Information Publication), not this file.
 AIRPORTS = {
-    "OMDB": {"name": "Dubai Intl (DXB)",    "lat": 25.2532, "lon": 55.3657},
+    "OMDB": {"name": "Dubai Intl (DXB)", "lat": 25.2532, "lon": 55.3657},
     "OMAA": {"name": "Abu Dhabi Intl (AUH)", "lat": 24.4330, "lon": 54.6511},
     "OMDW": {"name": "Al Maktoum Intl / DWC", "lat": 24.8964, "lon": 55.1613},
-    "OMSJ": {"name": "Sharjah Intl (SHJ)",   "lat": 25.3286, "lon": 55.5172},
+    "OMSJ": {"name": "Sharjah Intl (SHJ)", "lat": 25.3286, "lon": 55.5172},
 }
 
 
@@ -43,16 +43,21 @@ def _haversine_km(lat1, lon1, lat2, lon2) -> float:
 
 def _great_circle_interpolate(lat1, lon1, lat2, lon2, f: float) -> tuple[float, float]:
     p1, l1, p2, l2 = map(math.radians, (lat1, lon1, lat2, lon2))
-    d = 2 * math.asin(math.sqrt(
-        math.sin((p2 - p1) / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin((l2 - l1) / 2) ** 2
-    ))
+    d = 2 * math.asin(
+        math.sqrt(
+            math.sin((p2 - p1) / 2) ** 2
+            + math.cos(p1) * math.cos(p2) * math.sin((l2 - l1) / 2) ** 2
+        )
+    )
     if d == 0:
         return lat1, lon1
     a, b = math.sin((1 - f) * d) / math.sin(d), math.sin(f * d) / math.sin(d)
     x = a * math.cos(p1) * math.cos(l1) + b * math.cos(p2) * math.cos(l2)
     y = a * math.cos(p1) * math.sin(l1) + b * math.cos(p2) * math.sin(l2)
     z = a * math.sin(p1) + b * math.sin(p2)
-    return math.degrees(math.atan2(z, math.sqrt(x * x + y * y))), math.degrees(math.atan2(y, x))
+    return math.degrees(math.atan2(z, math.sqrt(x * x + y * y))), math.degrees(
+        math.atan2(y, x)
+    )
 
 
 @dataclass
@@ -85,8 +90,18 @@ def generate_trajectory(cfg: TrajectoryConfig) -> list[dict]:
         else:
             alt_ft, frac = cfg.cruise_altitude_ft, (t - climb_time_s) / cruise_time_s
 
-        lat, lon = _great_circle_interpolate(origin["lat"], origin["lon"], dest["lat"], dest["lon"], frac)
-        points.append({"entity_id": cfg.entity_id, "t_s": cfg.eobt_s + t, "lat": lat, "lon": lon, "alt_ft": max(alt_ft, 0.0)})
+        lat, lon = _great_circle_interpolate(
+            origin["lat"], origin["lon"], dest["lat"], dest["lon"], frac
+        )
+        points.append(
+            {
+                "entity_id": cfg.entity_id,
+                "t_s": cfg.eobt_s + t,
+                "lat": lat,
+                "lon": lon,
+                "alt_ft": max(alt_ft, 0.0),
+            }
+        )
         t += cfg.sample_dt_s
     return points
 

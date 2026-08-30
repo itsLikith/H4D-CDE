@@ -32,7 +32,7 @@ type Config struct {
 	} `yaml:"separation"`
 
 	Voxelization struct {
-		H3Resolution int `yaml:"h3_resolution"`
+		H3Resolution  int `yaml:"h3_resolution"`
 		AltitudeBinFt int `yaml:"altitude_bin_ft"`
 		TimeBinS      int `yaml:"time_bin_s"`
 	} `yaml:"voxelization"`
