@@ -56,3 +56,12 @@ logs/
 # Env files
 .env.local
 .env.*.local
+
+# ML Models & Checkpoints
+models/
+*.joblib
+*.pt
+
+# Cache
+.pytest_cache/
+.ruff_cache/
