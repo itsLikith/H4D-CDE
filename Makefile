@@ -16,19 +16,21 @@
 # H4D-CDE — Hexagonal 4D Conflict-Detection Engine
 # ==============================================================================
 # Usage:
-#   make setup          Bootstrap Python virtual environments (run once after clone)
+#   make setup          Bootstrap Python venvs & Node dependencies
 #   make all            proto → build → test  (full CI pipeline)
 #   make proto          Regenerate gRPC / Protobuf stubs via buf
-#   make build          Compile all Go service binaries to ./bin/
-#   make test           Run all Go and Python unit tests
+#   make build          Compile all Go binaries & build Next.js web dashboard
+#   make test           Run all Go, Python, and Frontend test suites
 #   make train-models   Train Trajectory Predictor, Risk Scorer, Demand Forecaster
 #   make benchmark      Empirical benchmark reproducing paper Tables I–III
-#   make up             Build Docker images and start the full 11-container stack
+#   make web-dev        Start Next.js web dashboard in local development mode
+#   make up             Build Docker images and start the full 12-container stack
 #   make down           Stop and remove all containers and volumes
-#   make clean          Remove compiled binaries and model checkpoints
+#   make clean          Remove compiled binaries, web build, and model checkpoints
 # ==============================================================================
 
-.PHONY: all setup proto train-models test benchmark build up down clean
+.PHONY: all setup proto train-models test benchmark build up down clean \
+        web-setup web-build web-lint web-format web-dev
 
 SHELL := /bin/bash
 
@@ -48,10 +50,10 @@ PYTHON_DEMAND := services/demand-forecaster-svc/.venv/bin/python3
 all: proto build test
 
 # ---------------------------------------------------------------------------
-# setup — Bootstrap Python virtual environments (run once after git clone)
+# setup — Bootstrap environments (run once after git clone)
 # ---------------------------------------------------------------------------
-## Create and populate Python venvs for all three ML services
-setup:
+## Create and populate Python venvs & install Node.js web dashboard dependencies
+setup: web-setup
 	@echo "[*] Bootstrapping Python virtual environments..."
 	@if [ ! -f services/trajectory-predictor-svc/.venv/bin/python3 ]; then \
 		echo "[*] Creating venv: trajectory-predictor-svc"; \
@@ -74,7 +76,7 @@ setup:
 	services/demand-forecaster-svc/.venv/bin/pip install --quiet --upgrade pip
 	services/demand-forecaster-svc/.venv/bin/pip install --quiet -r services/demand-forecaster-svc/requirements.txt
 
-	@echo "[+] Python environments ready."
+	@echo "[+] Python and Web environments ready."
 
 # ---------------------------------------------------------------------------
 # proto — Regenerate gRPC / Protobuf stubs for Go and Python
@@ -86,10 +88,10 @@ proto:
 	@echo "[+] Proto stubs generated."
 
 # ---------------------------------------------------------------------------
-# build — Compile all Go service binaries
+# build — Compile all Go service binaries & Web dashboard
 # ---------------------------------------------------------------------------
-## Compile all four Go microservices to ./bin/
-build:
+## Compile all four Go microservices to ./bin/ and build Next.js dashboard
+build: web-build
 	@echo "[*] Building Go microservice binaries..."
 	@mkdir -p bin
 	cd services/voxel-engine   && CGO_ENABLED=1 go build -o ../../bin/voxel-engine   ./cmd/server/main.go
@@ -99,10 +101,10 @@ build:
 	@echo "[+] Binaries written to ./bin/"
 
 # ---------------------------------------------------------------------------
-# test — Run all unit tests (Go + Python)
+# test — Run all unit tests (Go + Python + Frontend Lint)
 # ---------------------------------------------------------------------------
-## Run Go and Python test suites
-test: _check_venvs
+## Run Go, Python, and Web test/lint suites
+test: _check_venvs web-lint
 	@echo "[*] Running Go test suites..."
 	cd services/voxel-engine  && go test -v ./...
 	cd services/standards-svc && go test -v ./...
@@ -144,13 +146,44 @@ benchmark:
 	@echo "[+] Benchmark complete."
 
 # ---------------------------------------------------------------------------
+# Frontend / Web Dashboard Targets
+# ---------------------------------------------------------------------------
+## Install web dependencies
+web-setup:
+	@echo "[*] Installing web dependencies..."
+	cd web && npm ci
+
+## Build production Next.js web application
+web-build:
+	@echo "[*] Building Next.js web dashboard..."
+	cd web && npm run build
+
+## Lint web application
+web-lint:
+	@echo "[*] Linting web dashboard..."
+	cd web && npm run lint
+
+## Format web application code with Prettier
+web-format:
+	@echo "[*] Formatting web dashboard code with Prettier..."
+	cd web && npm run format
+
+## Start local Next.js web dashboard in dev mode on port 3000
+web-dev:
+	@echo "[*] Starting H4D-CDE Web Dashboard on http://localhost:3000..."
+	cd web && npm run dev -- -p 3000
+
+# ---------------------------------------------------------------------------
 # up / down — Docker Compose lifecycle
 # ---------------------------------------------------------------------------
-## Build Docker images and start the full 11-container stack
+## Build Docker images and start the full 12-container stack
 up:
-	@echo "[*] Launching H4D-CDE microservices and infrastructure..."
+	@echo "[*] Launching H4D-CDE microservices, web dashboard, and infrastructure..."
 	docker compose up --build -d
-	@echo "[+] Stack is up. Gateway: http://localhost:8080  Prometheus: http://localhost:9090"
+	@echo "[+] Stack is up."
+	@echo "    - Web Dashboard:  http://localhost:3000"
+	@echo "    - API Gateway:    http://localhost:8080"
+	@echo "    - Prometheus:     http://localhost:9090"
 
 ## Stop and remove all containers and volumes
 down:
@@ -161,9 +194,9 @@ down:
 # ---------------------------------------------------------------------------
 # clean — Remove build artifacts
 # ---------------------------------------------------------------------------
-## Remove compiled binaries and trained model checkpoints
+## Remove compiled binaries, web build artifacts, and trained model checkpoints
 clean:
-	@rm -rf bin/
+	@rm -rf bin/ web/.next/ web/out/
 	@rm -f models/*.joblib models/*.pt
 	@echo "[+] Clean complete."
 
