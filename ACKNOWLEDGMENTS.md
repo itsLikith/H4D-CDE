@@ -1,12 +1,13 @@
 <div align="center">
-  <h1>Acknowledgments</h1>
-  <h3>PRISM Repository Implementation</h3>
 
-  <p>
-    <img src="https://img.shields.io/badge/Based%20on-Research%20Paper-0A66C2.svg?style=for-the-badge" alt="Research Paper">
-    <img src="https://img.shields.io/badge/Conference-ICSPIS%202025-blue.svg?style=for-the-badge" alt="Conference">
-    <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=for-the-badge" alt="License">
-  </p>
+<h1>Acknowledgments</h1>
+
+<p>
+  <img src="https://img.shields.io/badge/Based%20on-Research%20Paper-0A66C2?style=for-the-badge" alt="Research Paper">
+  <img src="https://img.shields.io/badge/Conference-ICSPIS%202025-blue?style=for-the-badge" alt="Conference">
+  <img src="https://img.shields.io/badge/License-Apache%202.0-blue?style=for-the-badge" alt="License">
+</p>
+
 </div>
 
 <br>
@@ -36,8 +37,9 @@ Dr. Deepudev Sahadevan¹, Dr. Hannah Al Ali¹, and Dr. Chilka Mahesh²
 The original research was supported by:
 
 - **Emirates Aviation University** — for providing the necessary facilities and academic environment to conduct this research.
+- **Airports Authority of India** — for institutional collaboration and domain expertise.
 
-We gratefully acknowledge the contributions of the authors and the supporting institution that made both the research and this open implementation possible.
+We gratefully acknowledge the contributions of the authors and the supporting institutions that made both the research and this open implementation possible.
 
 ---
 
@@ -64,10 +66,9 @@ It is provided for research, educational, and development purposes under the Apa
 
 <br>
 
-
 <div align="center">
   <sub>
-    <strong>HIVE</strong> — Hexagonal Indexing and Voxelization Engine<br>
+    <strong>H4D-CDE</strong> — Hexagonal 4D Conflict-Detection Engine<br>
     Built upon peer-reviewed research in Urban Air Mobility conflict detection
   </sub>
 </div>
