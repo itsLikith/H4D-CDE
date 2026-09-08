@@ -45,8 +45,8 @@ _GEN_DIR = os.path.join(_SVC_DIR, "gen")
 if _GEN_DIR not in sys.path:
     sys.path.insert(0, _GEN_DIR)
 
-import demand_forecaster_pb2            # noqa: E402
-import demand_forecaster_pb2_grpc       # noqa: E402
+import demand_forecaster_pb2  # noqa: E402
+import demand_forecaster_pb2_grpc  # noqa: E402
 from app.model import DemandForecasterTCN  # noqa: E402
 
 logging.basicConfig(
@@ -136,7 +136,9 @@ class DemandForecasterServicer(
         time_horizon_sec = (
             request.time_horizon_seconds if request.time_horizon_seconds > 0 else 300
         )
-        history = list(request.historical_density) if request.historical_density else [0.0]
+        history = (
+            list(request.historical_density) if request.historical_density else [0.0]
+        )
 
         if self.model is not None:
             # Reshape history into (1, in_features=1, seq_len) tensor.
@@ -148,7 +150,7 @@ class DemandForecasterServicer(
             # Add batch and channel dims: (1, 1, T)
             tensor_in = torch.from_numpy(seq).unsqueeze(0).unsqueeze(0)
             with torch.no_grad():
-                out = self.model(tensor_in)           # (1, 1, horizon_steps)
+                out = self.model(tensor_in)  # (1, 1, horizon_steps)
             # Take the mean over the horizon window as the scalar forecast
             forecast_val = float(out.mean().item()) * 30.0
             forecast_val = max(0.0, forecast_val)

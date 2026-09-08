@@ -43,11 +43,11 @@ _GEN_DIR = os.path.join(_SVC_DIR, "gen")
 if _GEN_DIR not in sys.path:
     sys.path.insert(0, _GEN_DIR)
 
-import common_pb2                           # noqa: E402
-import trajectory_predictor_pb2             # noqa: E402
-import trajectory_predictor_pb2_grpc        # noqa: E402
+import common_pb2  # noqa: E402
+import trajectory_predictor_pb2  # noqa: E402
+import trajectory_predictor_pb2_grpc  # noqa: E402
 from app.features import air_density, build_feature_vector  # noqa: E402
-from app.haversine import haversine_km                       # noqa: E402
+from app.haversine import haversine_km  # noqa: E402
 
 logging.basicConfig(
     level=logging.INFO,
@@ -150,9 +150,9 @@ class TrajectoryPredictorServicer(
                 feat = build_feature_vector(
                     great_circle_distance_km=dist_km,
                     altitude_diff_ft=alt_diff_ft,
-                    wind_speed_kt=0.0,       # no live weather; zeroed out
+                    wind_speed_kt=0.0,  # no live weather; zeroed out
                     wind_direction_deg=0.0,
-                    max_accel_mps2=1.5,      # typical eVTOL max accel
+                    max_accel_mps2=1.5,  # typical eVTOL max accel
                     cruise_speed_kt=cruise_kt,
                     altitude_ft=prev.alt_m * 3.28084,
                 )
@@ -161,7 +161,9 @@ class TrajectoryPredictorServicer(
                     # Never let model output be physically implausible (< 80 % kinematic)
                     duration_s = max(pred_s, base_duration_s * 0.8)
                 except Exception as exc:
-                    logger.warning("Model inference failed: %s – using kinematic fallback.", exc)
+                    logger.warning(
+                        "Model inference failed: %s – using kinematic fallback.", exc
+                    )
                     duration_s = base_duration_s
             else:
                 duration_s = base_duration_s
