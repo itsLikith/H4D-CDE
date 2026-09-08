@@ -46,8 +46,8 @@ _GEN_DIR = os.path.join(_SVC_DIR, "gen")
 if _GEN_DIR not in sys.path:
     sys.path.insert(0, _GEN_DIR)
 
-import risk_scorer_pb2             # noqa: E402
-import risk_scorer_pb2_grpc        # noqa: E402
+import risk_scorer_pb2  # noqa: E402
+import risk_scorer_pb2_grpc  # noqa: E402
 from app.features import build_feature_vector  # noqa: E402
 
 logging.basicConfig(
@@ -122,7 +122,9 @@ class RiskScorerServicer(risk_scorer_pb2_grpc.RiskScorerServiceServicer):
             try:
                 raw_score = float(self.model.predict_proba([feat])[0][1])
             except Exception as exc:
-                logger.warning("Model inference failed: %s – using Fermi fallback.", exc)
+                logger.warning(
+                    "Model inference failed: %s – using Fermi fallback.", exc
+                )
                 raw_score = _fermi_sigmoid(feat[0], feat[1], 0.0)
         else:
             raw_score = _fermi_sigmoid(feat[0], feat[1], 0.0)
@@ -147,9 +149,7 @@ class RiskScorerServicer(risk_scorer_pb2_grpc.RiskScorerServiceServicer):
         """
         Batch scoring for fleet-wide parallel conflict cluster analysis.
         """
-        responses = [
-            self.ScoreRisk(pair_req, context) for pair_req in request.requests
-        ]
+        responses = [self.ScoreRisk(pair_req, context) for pair_req in request.requests]
         return risk_scorer_pb2.BatchScoreRiskResponse(responses=responses)
 
 

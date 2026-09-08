@@ -203,6 +203,21 @@ services:
       audit-svc:
         condition: service_started
 
+  web:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    container_name: h4d-web
+    environment:
+      PORT: "3000"
+      NEXT_PUBLIC_GATEWAY_URL: "http://localhost:8080"
+      NEXT_PUBLIC_WS_URL: "ws://localhost:8080/ws/live-updates"
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    depends_on:
+      gateway:
+        condition: service_started
+
 volumes:
   redis_data:
   kafka_data:
