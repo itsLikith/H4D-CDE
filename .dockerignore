@@ -1,0 +1,22 @@
+# Ignore Python virtualenvs and caches
+**/.venv
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+**/.ruff_cache
+
+# Ignore Node.js dependencies and builds
+**/node_modules
+**/.next
+**/out
+**/dist
+
+# Ignore Go build binaries
+bin/
+**/bin
+
+# Ignore git and logs
+.git
+.DS_Store
+*.log
+logs/

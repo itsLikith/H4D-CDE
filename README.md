@@ -1,7 +1,7 @@
 <div align="center">
 
 <!-- Banner Placeholder -->
-<img src="assets/banner.jpg" alt="AI-Augmented Hexagonal Voxelization Banner" height="auto" width="auto">
+<img src="assets/banner.png" alt="AI-Augmented Hexagonal Voxelization Banner" height="auto" width="auto">
 
 <br><br>
 

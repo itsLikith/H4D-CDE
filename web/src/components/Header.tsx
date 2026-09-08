@@ -15,6 +15,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { AlertTriangle, Clock, Layers, Pause, Play, RotateCcw } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -56,36 +58,49 @@ export function Header({
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/80 bg-background/95 backdrop-blur-md px-4 py-2.5">
+    <header className="sticky top-0 z-50 w-full border-b border-slate-800 bg-[#080C14]/95 backdrop-blur-md px-4 py-2.5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         {/* Brand & System Identifier */}
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono font-bold text-sm shadow-sm">
-            H4D
-          </div>
+          <Link
+            href="/"
+            className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-700 bg-slate-900 p-1 shadow-sm hover:border-blue-500 transition-colors"
+            title="Return to Overview"
+          >
+            <Image
+              src="/logo.png"
+              alt="H4D-CDE Logo"
+              width={32}
+              height={32}
+              className="h-full w-full object-contain"
+            />
+          </Link>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-sm font-semibold tracking-tight text-foreground">
+              <Link
+                href="/"
+                className="text-sm font-bold tracking-tight text-white hover:text-blue-400 transition-colors"
+              >
                 H4D-CDE
-              </h1>
-              <span className="text-xs text-muted-foreground hidden sm:inline">|</span>
-              <span className="text-xs font-medium text-muted-foreground hidden sm:inline">
-                Hexagonal 4D Conflict Detection Engine
+              </Link>
+              <span className="text-xs text-slate-600 hidden sm:inline">|</span>
+              <span className="text-xs font-medium text-slate-300 hidden sm:inline">
+                Airspace Operations Console
               </span>
               <Badge
                 variant="outline"
-                className="text-[10px] font-mono px-1.5 py-0 h-4 border-emerald-500/40 text-emerald-400 bg-emerald-500/5"
+                className="text-[10px] font-mono px-1.5 py-0 h-4 border-blue-500/30 text-blue-400 bg-blue-500/5"
               >
-                ICSPIS 2025
+                Live Radar
               </Badge>
             </div>
-            <div className="flex items-center gap-3 text-[11px] text-muted-foreground font-mono">
+            <div className="flex items-center gap-3 text-[11px] text-slate-400 font-mono">
               <span className="flex items-center gap-1">
-                <Clock className="h-3 w-3 text-muted-foreground/80" />
+                <Clock className="h-3 w-3 text-slate-500" />
                 {utcTime || "00:00:00 UTC"}
               </span>
-              <span className="text-muted-foreground/40">•</span>
-              <span>ASTM F3548-21 Compliant</span>
+              <span className="text-slate-700">•</span>
+              <span>ASTM F3548-21 4D SCD</span>
             </div>
           </div>
         </div>
